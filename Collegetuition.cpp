@@ -52,47 +52,91 @@ int main()
 {
 
     const double UNIT_RATE = 36.0;
-    const double OUT_OF_STATE_RATE = UNIT_RATE * 2;
+    const double OUT_OF_STATE_RATE = UNIT_RATE * 2.5;
     const double HEALTH_FEE = 18.0;
     const double PARKING_FEE = 25.00;
     const double APPLICATION_FEE = 80.0;
 
-    string studentName = "Diego Hernandez";
-    char isResident = 'Y';
-    int numUnits = 10;
+    string studentName;
+    char isResident;
+    int numUnits;
     double costOfUnits;
-    char isDisabled = 'Y';
-    char isVeteran = 'Y';
+    char isDisabled;
+    char isVeteran;
     double totalCost;
+    double applicationFee;
     double parkingFee;
+    double healthFee;
+    string parkingStatus, veteranStatus, partTime;
 
     cout << "WELCOME TO COLLEGE ! " << endl;
     cout << "Please answer the following information: " << endl;
     cout << "What is your name?: " << studentName;
-    // getline(cin, studentName);
-    cout << "Are you a California resident? (Y/N): " << isResident << endl;
-    // isResident = getYorN();
-    //  if (isResident == 'Y' || isResident == 'N')
-    //  {
-    cout << "How many units will you be taking?: " << numUnits << endl;
-    // numUnits = unitNumber();
-    cout << "Are you disabled? (Y/N): " << isDisabled << endl;
-    // isDisabled = getYorN();
-    cout << "Are you a veteran? (Y/N): " << isVeteran << endl;
-    // isVeteran = getYorN();
-    // }
+    getline(cin, studentName);
+    cout << "Are you a California resident? (Y/N): " << isResident;
+    isResident = getYorN();
+    if (isResident == 'Y' || isResident == 'N')
+    {
+        cout << "How many units will you be taking?: " << numUnits;
+        numUnits = unitNumber();
+        cout << "Are you disabled? (Y/N): " << isDisabled;
+        isDisabled = getYorN();
+        cout << "Are you a veteran? (Y/N): " << isVeteran;
+        isVeteran = getYorN();
+    }
 
     costOfUnits = numUnits * UNIT_RATE;
-    totalCost = costOfUnits + HEALTH_FEE + PARKING_FEE + APPLICATION_FEE;
+
+    if (isResident == 'N')
+    {
+        costOfUnits = numUnits * UNIT_RATE;
+    }
+    else
+    {
+        costOfUnits = numUnits * OUT_OF_STATE_RATE;
+    }
+    if (isVeteran == 'Y')
+    {
+        applicationFee = 0;
+        veteranStatus = " (Waived: Is a Veteran)";
+    }
+    else
+    {
+        applicationFee = APPLICATION_FEE;
+        veteranStatus = " ";
+    }
+    if (isDisabled == 'Y')
+    {
+        parkingFee = 0;
+        parkingStatus = " (Waived: Is Disabled)";
+    }
+    else
+    {
+        parkingFee = PARKING_FEE;
+        parkingStatus = " ";
+    }
+
+    if (numUnits < 10)
+    {
+        healthFee = 0;
+        partTime = " (Waived: Is Part Time)";
+    }
+    else
+    {
+        healthFee = HEALTH_FEE;
+        partTime = " ";
+    }
+    totalCost = costOfUnits + healthFee + parkingFee + applicationFee;
 
     cout << setprecision(2) << fixed << showpoint;
-    cout << "\nStudent's name: " << setw(1) << studentName << endl
+    cout << "\nStudent's name:" << setw(4) << " " << studentName << endl
          << "State Resident: " << setw(4) << isResident << endl
-         << "Number of Units: " << setw(4) << numUnits << endl
-         << "Application Fee: " << setw(3) << "$" << setw(6) << APPLICATION_FEE << endl
-         << "Cost of " << numUnits << " Units: " << setw(2) << "$" << setw(6) << costOfUnits << endl
-         << "Parking Fee: " << setw(7) << "$" << setw(6) << PARKING_FEE << endl
-         << "Health Fee: " << setw(8) << "$" << setw(6) << HEALTH_FEE << endl
+         << "Number of Units: " << setw(2) << " " << numUnits << endl
+         << "Application Fee: " << setw(3) << "$" << setw(6) << applicationFee << veteranStatus << endl
+         << "Cost of " << numUnits << " Units: " << setw(2) << " "
+         << "$" << setw(6) << costOfUnits << endl
+         << "Parking Fee: " << setw(7) << "$" << setw(6) << parkingFee << parkingStatus << endl
+         << "Health Fee: " << setw(8) << "$" << setw(6) << healthFee << partTime << endl
          << "Total Cost: " << setw(8) << "$" << setw(6) << totalCost << endl;
 
     return 0;
